@@ -1,0 +1,20 @@
+{
+  "description": "This NFT proves You're a certified member of Collegence DAO",
+  "external_url": "https://subrotokumar.com",
+  "image": "ipfs://QmPUQxUxaWvXaFyCmEXZMGLGHMVMceUZYY7GtWFiopeTUg",
+  "name": "Collegence DAO Membership NFT",
+  "attributes": [
+    {
+      "trait_type": "Status",
+      "value": "Owner"
+    },
+    {
+      "trait_type": "Organisation Type",
+      "value": "DAO"
+    },
+    {
+      "trait_type": "Power",
+      "value": "Voting and Governance"
+    }
+  ]
+}
