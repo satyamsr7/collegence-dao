@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
-import 'package:collegence_dao/core/env.dart';
+import 'package:collegence_dao/core/core.dart';
 
 Future<DeployedContract> loadContract(
     String contractAddress, String contractName, String location) async {
@@ -26,7 +26,7 @@ final web3Client = Provider((ref) {
   return Web3Client(ENV.rpcURL, httpClient);
 });
 
-final PrivateKey = StateNotifierProvider<PrivateKeyProvider, EthPrivateKey?>(
+final privateKey = StateNotifierProvider<PrivateKeyProvider, EthPrivateKey?>(
     (ref) => PrivateKeyProvider(ref));
 
 class PrivateKeyProvider extends StateNotifier<EthPrivateKey?> {
@@ -38,6 +38,7 @@ class PrivateKeyProvider extends StateNotifier<EthPrivateKey?> {
 
   set setCredentials(String privateKey) {
     state = EthPrivateKey.fromHex(privateKey);
+    log.d(state);
   }
 
   String? get publicAddress {

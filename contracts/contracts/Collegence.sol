@@ -10,7 +10,7 @@ contract Collegence is ERC721, ERC721Enumerable, ERC721URIStorage {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
-    uint256 MAX_SUPPLY = 10000;
+    uint256 MAX_SUPPLY = 1000;
 
     constructor() ERC721("Collegence", "CLG") {}
 

@@ -1,11 +1,24 @@
 <p align="center">
-<img src="./public/earth.png" height="80px">
+<img src="./frontend/assets/logo.png" height="80px">
 <h2 align="center"> DAO </h2>
 
-<p align="center">Collegence is a decentralized autonomous organisation (DAO) <br>that has no central governing body is collectively-owned, blockchain<br>-governed oraganisation working towards a shared mission.</p>
-
-<img src="./public/ss.jpg">
+<p align="center">
+Collegence is a decentralized autonomous organisation (DAO) <br>that has no central governing body is collectively-owned, blockchain<br>-governed oraganisation working towards a shared mission.
 </p>
+
+<br>
+
+---
+<br>
+<p align="center">
+<img src="./public/login-with-keys.png" width="200"> &nbsp;
+<img src="./public/dashboard.png" width="200">&nbsp;
+<img src="./public/dashboard-2.png" width="200">&nbsp;
+<img src="./public/cast-vote.png" width="200">&nbsp;
+</p>
+<br>  
+
+---
 
 Blockchain Network: **Polygon Mumbai**  
  Contract Address: [0x08e081fc2Ff1dAa884c1107C13C59037268b5AE4](https://mumbai.polygonscan.com/address/0x08e081fc2Ff1dAa884c1107C13C59037268b5AE4#code)  

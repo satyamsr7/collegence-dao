@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collegence_dao/client/client.dart';
-import 'package:collegence_dao/core/function.dart';
-import 'package:collegence_dao/core/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:web3dart/web3dart.dart';
 import 'package:simple_gravatar/simple_gravatar.dart';
 
+import 'package:collegence_dao/client/client.dart';
+import 'package:collegence_dao/core/Palette.dart';
+import 'package:collegence_dao/core/function.dart';
+
 class PublicAddressSectionWidget extends StatelessWidget {
-  const PublicAddressSectionWidget({super.key});
+  const PublicAddressSectionWidget({super.key, this.col = Palette.neonGreen});
+  final Color col;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class PublicAddressSectionWidget extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Pallete.neonGreen,
+        color: col,
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -29,15 +30,18 @@ class PublicAddressSectionWidget extends StatelessWidget {
           style: TextStyle(color: Colors.blueGrey),
         ),
         subtitle: Consumer(builder: (context, ref, child) {
-          final publicAddress = ref.watch(PrivateKey.notifier).publicAddress;
-          final address = shortAddress(publicAddress);
+          final publicAddress = ref.watch(privateKey.notifier).publicAddress;
+          final String address = shortAddress(publicAddress);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                address ?? '0x0000....0000',
-                style:
-                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                address,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: Colors.blueGrey.shade600,
+                ),
               ),
               // FutureBuilder<EtherAmount?>(
               //   future: ref.watch(PrivateKey.notifier).balance,
@@ -51,16 +55,28 @@ class PublicAddressSectionWidget extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: const CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 136, 255, 0),
-                child: Icon(Icons.copy),
-              ),
-            ),
             Consumer(builder: (context, ref, child) {
               final publicAddress =
-                  ref.watch(PrivateKey.notifier).publicAddress;
+                  ref.watch(privateKey.notifier).publicAddress;
+              final String address = shortAddress(publicAddress);
+              return IconButton(
+                onPressed: () {
+                  if (publicAddress != null) {
+                    saveToClipboard(publicAddress);
+                    Toast(context, 'Copied $address');
+                  }
+                },
+                icon: CircleAvatar(
+                  backgroundColor: col == Palette.neonGreen
+                      ? const Color.fromARGB(255, 136, 255, 0)
+                      : Colors.grey.shade400,
+                  child: const Icon(Icons.copy),
+                ),
+              );
+            }),
+            Consumer(builder: (context, ref, child) {
+              final publicAddress =
+                  ref.watch(privateKey.notifier).publicAddress;
               var gravatar = Gravatar(publicAddress ?? 'collegence_dao');
               var url = gravatar.imageUrl(
                 size: 100,
@@ -68,7 +84,6 @@ class PublicAddressSectionWidget extends StatelessWidget {
                 rating: GravatarRating.pg,
                 fileExtension: true,
               );
-              print(url);
               return ClipOval(
                 child: CachedNetworkImage(imageUrl: url, height: 35),
               );

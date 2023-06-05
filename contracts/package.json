@@ -4,8 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "compile": "yarn hardhat compile",
+    "clean": "yarn hardhat clean",
+    "local": "yarn hardhat node",
     "nftlocal": "yarn hardhat run scripts/deployNFT.js --network localhost",
-    "daolocal": "yarn hardhat run scripts/deployDao.js --network localhost"
+    "daolocal": "yarn hardhat run scripts/deployDao.js --network localhost",
+    "nftmumbai": "yarn hardhat run scripts/deployNFT.js --network polygonMumbai",
+    "daomumbai": "yarn hardhat run scripts/deployDao.js --network polygonMumbai"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",

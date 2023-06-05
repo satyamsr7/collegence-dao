@@ -47,16 +47,19 @@ Future<String> writeFunction({
   required Web3Client web3client,
   int maxGas = 100000,
 }) async {
-  final contract = await contractsType.deployedContract;
-  final ethFunction = contract.function(functionName);
-  Transaction transaction = Transaction.callContract(
-    contract: contract,
-    function: ethFunction,
-    parameters: args,
-    maxGas: maxGas,
-  );
-  final result =
-      await web3client.sendTransaction(privateKey, transaction, chainId: 1);
-  print('$functionName => $result');
-  return result;
+  try {
+    final contract = await contractsType.deployedContract;
+    final ethFunction = contract.function(functionName);
+    Transaction transaction = Transaction.callContract(
+      contract: contract,
+      function: ethFunction,
+      parameters: args,
+      maxGas: maxGas,
+    );
+    final result =
+        await web3client.sendTransaction(privateKey, transaction, chainId: 1);
+    return result;
+  } catch (e) {
+    rethrow;
+  }
 }

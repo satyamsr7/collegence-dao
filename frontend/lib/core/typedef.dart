@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:web3dart/web3dart.dart';
 
 import '../client/function.dart';

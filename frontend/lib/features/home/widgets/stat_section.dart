@@ -1,8 +1,9 @@
-import 'package:collegence_dao/core/pallete.dart';
-import 'package:collegence_dao/features/home/controller/stats.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+import 'package:collegence_dao/core/Palette.dart';
+import 'package:collegence_dao/features/home/controller/stats.controller.dart';
 
 class StatSectionWidget extends StatelessWidget {
   const StatSectionWidget({super.key});
@@ -28,7 +29,7 @@ class StatSectionWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
-                  color: Pallete.dartBackgroundColor,
+                  color: Palette.dartBackgroundColor,
                 ),
               ),
               const Spacer(),
@@ -76,11 +77,11 @@ class StatSectionWidget extends StatelessWidget {
               subtitle: Consumer(
                 builder: (context, ref, child) => FutureBuilder<String>(
                   future:
-                      ref.watch(ProposalStats.notifier).fetchProposalCount(),
+                      ref.watch(proposalStats.notifier).fetchProposalCount(),
                   builder: (context, snapshot) => Consumer(
                     builder: (context, ref, child) {
-                      final String count = ref.watch(ProposalStats.select(
-                              (value) => value.totalProposalCount)) ??
+                      final String count = ref.watch(proposalStats
+                              .select((value) => value.totalProposalCount)) ??
                           '0';
                       return Text(count);
                     },
@@ -94,7 +95,7 @@ class StatSectionWidget extends StatelessWidget {
             children: [
               Flexible(
                 child: ListTile(
-                  visualDensity: VisualDensity(vertical: -2),
+                  visualDensity: const VisualDensity(vertical: -2),
                   tileColor: Colors.blue,
                   leading: PhosphorIcon(
                     PhosphorIcons.bold.thumbsUp,
@@ -105,12 +106,12 @@ class StatSectionWidget extends StatelessWidget {
                   subtitle: Consumer(
                     builder: (context, ref, child) => FutureBuilder<String>(
                       future: ref
-                          .watch(ProposalStats.notifier)
+                          .watch(proposalStats.notifier)
                           .fetchApprovedProposalCount(),
                       builder: (context, snapshot) => Consumer(
                         builder: (context, ref, child) {
-                          final String count = ref.watch(ProposalStats.select(
-                                  (value) => value.approved)) ??
+                          final String count = ref.watch(proposalStats
+                                  .select((value) => value.approved)) ??
                               '0';
                           return Text(' $count');
                         },
@@ -131,12 +132,12 @@ class StatSectionWidget extends StatelessWidget {
                   subtitle: Consumer(
                     builder: (context, ref, child) => FutureBuilder<String>(
                       future: ref
-                          .watch(ProposalStats.notifier)
+                          .watch(proposalStats.notifier)
                           .fetchOngoingProposalCount(),
                       builder: (context, snapshot) => Consumer(
                         builder: (context, ref, child) {
-                          final String count = ref.watch(ProposalStats.select(
-                                  (value) => value.ongoing)) ??
+                          final String count = ref.watch(proposalStats
+                                  .select((value) => value.ongoing)) ??
                               '0';
                           return Text(' $count');
                         },

@@ -1,20 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:collegence_dao/core/pallete.dart';
-import 'package:collegence_dao/features/home/model/proposal.model.dart';
+import 'package:collegence_dao/core/core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simple_gravatar/simple_gravatar.dart';
 
-class ProposalPage extends StatefulWidget {
+import 'package:collegence_dao/client/client.dart';
+import 'package:collegence_dao/features/home/model/proposal.model.dart';
+import 'package:collegence_dao/features/proposal/controllers/function.dart';
+
+class ProposalPage extends ConsumerStatefulWidget {
   const ProposalPage({required this.proposal, super.key});
   final Proposal proposal;
 
   @override
-  State<ProposalPage> createState() => _ProposalPageState();
+  ConsumerState<ProposalPage> createState() => _ProposalPageState();
 }
 
-class _ProposalPageState extends State<ProposalPage> {
+class _ProposalPageState extends ConsumerState<ProposalPage> {
   @override
   Widget build(BuildContext context) {
     final passed = widget.proposal.passed;
@@ -28,9 +33,13 @@ class _ProposalPageState extends State<ProposalPage> {
       status = 'Rejected';
       col = Colors.red;
     }
-    Size size = MediaQuery.of(context).size;
+    BigInt voteUp = widget.proposal.votesUp;
+    BigInt voteDown = widget.proposal.votesDown;
+    final DateTime deadline = DateTime.fromMillisecondsSinceEpoch(
+        widget.proposal.deadline.toInt() * 1000);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Pallete.blue,
+      backgroundColor: Palette.blue,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           bool? vote;
@@ -44,6 +53,7 @@ class _ProposalPageState extends State<ProposalPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text('CAST VOTE'),
+                        Text('Deadline : ${deadline.toLocal().toString()}'),
                         const Divider(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,10 +91,26 @@ class _ProposalPageState extends State<ProposalPage> {
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             minimumSize: const Size.fromHeight(50),
-                            backgroundColor: Colors.green.shade100,
+                            backgroundColor: vote == null
+                                ? Colors.grey.shade200
+                                : (vote!
+                                    ? Colors.green.shade100
+                                    : Colors.red.shade100),
                             foregroundColor: Colors.black,
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            if (vote == null) return;
+                            try {
+                              castVote(
+                                  id: widget.proposal.id,
+                                  vote: vote!,
+                                  ref: ref);
+                            } catch (e) {
+                              log.v(e);
+                              Toast(context, e.toString());
+                            }
+                            context.pop();
+                          },
                           child: const Text('Proceed'),
                         ),
                         const SizedBox(height: 10),
@@ -130,7 +156,9 @@ class _ProposalPageState extends State<ProposalPage> {
                       backgroundColor: Colors.white,
                       fixedSize: const Size(40, 40),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.pop();
+                    },
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
                   ),
                   const Spacer(),
@@ -201,15 +229,50 @@ class _ProposalPageState extends State<ProposalPage> {
                           rating: GravatarRating.pg,
                           fileExtension: true,
                         );
-                        print(url);
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: ClipOval(
-                            child:
-                                CachedNetworkImage(imageUrl: url, height: 35),
+                        return GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text('Proposal By'),
+                                      const Divider(),
+                                      Text(
+                                        shortAddress(
+                                            widget.proposal.proposer.hex,
+                                            i: 8),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          minimumSize:
+                                              const Size.fromHeight(50),
+                                          backgroundColor: Colors.transparent,
+                                          foregroundColor: Colors.black,
+                                        ),
+                                        onPressed: () {
+                                          context.pop();
+                                        },
+                                        child: const Text('Close'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: ClipOval(
+                              child:
+                                  CachedNetworkImage(imageUrl: url, height: 35),
+                            ),
                           ),
                         );
                       },
@@ -237,20 +300,18 @@ class _ProposalPageState extends State<ProposalPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Flexible(
                       child: VoteMatricTile(
                         title: 'For',
-                        percentage: 75,
-                        voteCount: 20,
+                        voteCount: voteUp,
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Flexible(
                       child: VoteMatricTile(
                         title: 'Against',
-                        percentage: 25,
-                        voteCount: 4,
+                        voteCount: voteDown,
                       ),
                     ),
                   ],
@@ -262,7 +323,7 @@ class _ProposalPageState extends State<ProposalPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16)
                       .copyWith(top: 20),
                   child: const Text(
-                    'Cast Vote',
+                    'Vote Status',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
@@ -282,30 +343,76 @@ class _ProposalPageState extends State<ProposalPage> {
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.black, width: 2),
                   ),
-                  child: Column(
-                    children: [
-                      StatefulBuilder(
-                        builder: (context, newState) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton.icon(
-                                onPressed: () {},
-                                icon:
-                                    const Icon(Icons.radio_button_off_rounded),
-                                label: const Text('For'),
-                              ),
-                              TextButton.icon(
-                                onPressed: () {},
-                                icon:
-                                    const Icon(Icons.radio_button_off_rounded),
-                                label: const Text('Against'),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
+                  child: Consumer(builder: (context, ref, child) {
+                    final client = ref.watch(web3Client);
+                    return FutureBuilder<List<dynamic>>(
+                        future: getVoteStatus(widget.proposal.id, client),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapshot.hasData) {
+                            final addressList = snapshot.data![0] as List;
+                            final voteStatus = snapshot.data![1] as List;
+                            return ListView.separated(
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: CachedNetworkImage(
+                                      imageUrl: Gravatar(shortAddress(
+                                                  addressList
+                                                      .elementAt(index)
+                                                      .hex) +
+                                              '@dao.com')
+                                          .imageUrl(
+                                        size: 100,
+                                        defaultImage: GravatarImage.retro,
+                                        rating: GravatarRating.pg,
+                                        fileExtension: true,
+                                      ),
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    shortAddress(
+                                        addressList.elementAt(index).hex),
+                                  ),
+                                  trailing: voteStatus.elementAt(index)
+                                      ? const Icon(
+                                          CupertinoIcons.tickets_fill,
+                                          color: Colors.greenAccent,
+                                        )
+                                      : const Icon(CupertinoIcons.tickets),
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const Divider(),
+                              itemCount: addressList.length,
+                            );
+                          }
+                          return const Center(child: Text('404'));
+                        });
+                  }),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Card(
+                margin: const EdgeInsets.all(0),
+                color: Colors.transparent,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Text(
+                    deadline.toLocal().toString(),
+                    style: const TextStyle(color: Colors.white70),
                   ),
                 ),
               ),
@@ -321,13 +428,11 @@ class VoteMatricTile extends StatelessWidget {
   const VoteMatricTile({
     super.key,
     required this.title,
-    required this.percentage,
     required this.voteCount,
   });
 
   final String title;
-  final double percentage;
-  final int voteCount;
+  final BigInt voteCount;
 
   @override
   Widget build(BuildContext context) {
@@ -346,25 +451,8 @@ class VoteMatricTile extends StatelessWidget {
               style: const TextStyle(fontSize: 14),
             ),
             Text(
-              '${percentage.toStringAsFixed(0)} %',
+              '${voteCount.toString()} vote',
               style: const TextStyle(fontSize: 14),
-            ),
-          ],
-        ),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              voteCount.toString(),
-              style: const TextStyle(fontSize: 14),
-            ),
-            const SizedBox(width: 16),
-            Flexible(
-              child: LinearProgressIndicator(
-                value: (percentage / 100),
-                color: Colors.blue,
-                minHeight: 10,
-              ),
             ),
           ],
         ),

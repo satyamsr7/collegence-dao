@@ -1,4 +1,3 @@
-
 import 'package:collegence_dao/client/client.dart';
 import 'package:collegence_dao/client/function.dart';
 import 'package:collegence_dao/core/typedef.dart';
@@ -6,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/stat.model.dart';
 
-final ProposalStats = StateNotifierProvider<TotalProposalNotifier, Stats>(
+final proposalStats = StateNotifierProvider<TotalProposalNotifier, Stats>(
     (ref) => TotalProposalNotifier(ref));
 
 class TotalProposalNotifier extends StateNotifier<Stats> {

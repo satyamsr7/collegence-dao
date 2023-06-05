@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:web3dart/web3dart.dart';
+
 class Proposal {
   final BigInt id;
   final bool exists;
@@ -10,6 +12,8 @@ class Proposal {
   final BigInt maxVotes;
   final bool countConducted;
   final bool passed;
+  final EthereumAddress proposer;
+
   Proposal({
     required this.id,
     required this.exists,
@@ -20,6 +24,7 @@ class Proposal {
     required this.maxVotes,
     required this.countConducted,
     required this.passed,
+    required this.proposer,
   });
 
   Proposal copyWith({
@@ -32,8 +37,10 @@ class Proposal {
     BigInt? maxVotes,
     bool? countConducted,
     bool? passed,
+    EthereumAddress? proposer,
   }) {
     return Proposal(
+      proposer: proposer ?? this.proposer,
       id: id ?? this.id,
       exists: exists ?? this.exists,
       description: description ?? this.description,
@@ -48,15 +55,16 @@ class Proposal {
 
   factory Proposal.fromTuple(List<dynamic> tuple) {
     return Proposal(
-      id: tuple[0],
-      exists: tuple[1] ?? false,
-      description: tuple[2] as String,
-      deadline: tuple[3],
-      votesUp: tuple[4],
-      votesDown: tuple[5],
-      maxVotes: tuple[6],
-      countConducted: tuple[7] ?? false,
-      passed: tuple[8] ?? false,
+      proposer: tuple[0] as EthereumAddress,
+      id: tuple[1],
+      exists: tuple[2] ?? false,
+      description: tuple[3] as String,
+      deadline: tuple[4],
+      votesUp: tuple[5],
+      votesDown: tuple[6],
+      maxVotes: tuple[7],
+      countConducted: tuple[8] ?? false,
+      passed: tuple[9] ?? false,
     );
   }
 

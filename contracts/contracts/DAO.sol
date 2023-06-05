@@ -55,9 +55,8 @@ contract DAO {
         nextProposal = 1;
         ongoingProposal = 0;
         proposalPassed = 0;
-        daoContract = IdaoContract(0x0fC5025C764cE34df352757e82f7B5c4Df39A836);
+        daoContract = IdaoContract(0x1811E1c046650856A8bf7dd34233e665Cb17f529);
         addTokenId(0);
-        addTokenId(1);
     }
 
     function checkProposalEligibility(

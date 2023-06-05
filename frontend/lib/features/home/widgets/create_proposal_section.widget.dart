@@ -1,10 +1,26 @@
-import 'package:collegence_dao/core/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class CreateProposalSection extends StatelessWidget {
+import 'package:collegence_dao/core/Palette.dart';
+import 'package:collegence_dao/features/create_proposal/view/create_proposal_screen.dart';
+
+class CreateProposalSection extends StatefulWidget {
   const CreateProposalSection({
     super.key,
   });
+
+  @override
+  State<CreateProposalSection> createState() => _CreateProposalSectionState();
+}
+
+class _CreateProposalSectionState extends State<CreateProposalSection> {
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +31,7 @@ class CreateProposalSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Pallete.pink,
+        color: Palette.pink,
       ),
       child: Column(
         children: [
@@ -35,7 +51,7 @@ class CreateProposalSection extends StatelessWidget {
                   shape: const CircleBorder(),
                   backgroundColor: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () => context.pushNamed(CreateProposalScreen.name),
                 icon: const Icon(Icons.add),
               ),
               IconButton(
@@ -43,15 +59,24 @@ class CreateProposalSection extends StatelessWidget {
                   shape: const CircleBorder(),
                   backgroundColor: Colors.black,
                 ),
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_forward_ios_rounded,
-                    color: Colors.white),
+                onPressed: () {
+                  controller.text = controller.text.trim();
+                  context.pushNamed(
+                    CreateProposalScreen.name,
+                    extra: controller,
+                  );
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 10),
           TextField(
-            style: const TextStyle(color: Colors.white),
+            controller: controller,
+            // style: const TextStyle(color: Colors.white),
             enableSuggestions: false,
             onTapOutside: (event) => FocusScope.of(context).unfocus(),
             maxLength: 100,
@@ -75,7 +100,13 @@ class CreateProposalSection extends StatelessWidget {
               foregroundColor: Colors.white,
               backgroundColor: Colors.pinkAccent,
             ),
-            onPressed: () {},
+            onPressed: () {
+              controller.text = controller.text.trim();
+              context.pushNamed(
+                CreateProposalScreen.name,
+                extra: controller,
+              );
+            },
             child: const Text(
               'Create Proposal',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),

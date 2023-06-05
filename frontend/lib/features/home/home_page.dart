@@ -1,7 +1,11 @@
-import 'package:collegence_dao/core/pallete.dart';
+import 'package:collegence_dao/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:collegence_dao/core/Palette.dart';
+import 'package:collegence_dao/features/settings/settings.dart';
 
 import 'widgets/create_proposal_section.widget.dart';
 import 'widgets/proposal_list_section.widget.dart';
@@ -22,7 +26,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Pallete.dartBackgroundColor,
+      backgroundColor: Palette.dartBackgroundColor,
       bottomNavigationBar: Consumer(builder: (context, ref, child) {
         return ref.watch(navVisible)
             ? const SizedBox(height: 0, width: 0)
@@ -31,6 +35,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                 selectedIndex: 1,
                 height: 50,
                 labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+                onDestinationSelected: (value) {
+                  switch (value) {
+                    case 0:
+                      context.pushNamed(ProfileScreen.name);
+                      break;
+                    case 2:
+                      context.pushNamed(SettingScreen.name);
+                      break;
+                    default:
+                      break;
+                  }
+                },
                 destinations: const [
                   NavigationDestination(
                     icon: Icon(Icons.person),
@@ -48,10 +64,13 @@ class _HomePageState extends ConsumerState<HomePage> {
               );
       }),
       body: RefreshIndicator(
-        onRefresh: () async => setState(() {}),
-        child: SizedBox(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: Container(
           height: size.height,
           width: size.width,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: ListView(
             shrinkWrap: true,
             children: [

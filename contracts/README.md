@@ -1,16 +1,63 @@
-# Sample Hardhat Project
+# DAO Smart Contract Hardhat Project
+This repository contains a smart contract project developed using the Hardhat framework for creating and testing Ethereum smart contracts. The project implements a Decentralized Autonomous Organization (DAO) using Solidity, allowing for decentralized governance and decision-making within a blockchain network.
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+## Installation
 
-Try running some of the following tasks:
+1. Clone the repository
+    ```bash
+    git clone https://github.com/subrotokumar/collegence-dao.git
+    ```
+2. Navigate to the project directory:
+   ```bash
+   cd collegence-dao/contracts
+   ```
+3. Install the dependencies:
+   ```bash
+   yarn
+   ```
+4. Configure the project:
+   Rename `.env.example` to `.env` and update the values with your configuration.
 
-```shell
-yarn hardhat help
-yarn hardhat test
-REPORT_GAS=true yarn hardhat test
-yarn hardhat node
-yarn hardhat run scripts/deploy.js
-```
-Collegence.sol deployed to [0xFCB93B0dDBC3b3E6E62Bf7dc7A565c688F18150c](https://mumbai.polygonscan.com/address/0xFCB93B0dDBC3b3E6E62Bf7dc7A565c688F18150c#code)
+5. Compile the smart contracts:
+   ```bash
+   yarn hardhat compile
+   ```
 
-DAO.sol deployed to [0x4503eE26b9c5BF6Ac6B956B9f19DF4A41409E311](https://mumbai.polygonscan.com/address/0x4503eE26b9c5BF6Ac6B956B9f19DF4A41409E311#code)
+## Usage
+
+1. Run the local development network:
+   ```bash
+   yarn hardhat node
+   ```
+
+2. Deploy the smart contracts to the local network:
+   ```bash
+   yarn hardhat run scripts/deployNft.js --network localhost
+   yarn hardhat run scripts/deployDao.js --network localhost
+   ```
+3. Interact with the smart contracts using the Hardhat console or integrate them into your DApp.
+   
+    
+
+## Contribution
+Contributions to this project are welcome. To contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch.
+3. Make your changes and commit them.
+4. Push your changes to your fork.
+5. Submit a pull request.
+6. Please ensure your code follows the existing code style and includes appropriate tests.
+
+## License
+This project is licensed under the [MIT License]().
+
+## Deployed to
+
+- Collegence.sol  
+  Address: [0x1811E1c046650856A8bf7dd34233e665Cb17f529](https://mumbai.polygonscan.com/address/0x1811E1c046650856A8bf7dd34233e665Cb17f529#code)
+  Network: Polygon Mumbai
+
+- DAO.sol  
+  [0xA999902839803Fe3dc70A5e0Fd7086CeaE6902f5](https://mumbai.polygonscan.com/address/0xA999902839803Fe3dc70A5e0Fd7086CeaE6902f5#code)  
+    Network: Polygon Mumbai

@@ -10,9 +10,6 @@ Future<Proposal> fetchProposalById(int id, Web3Client client) async {
     functionName: 'Proposals',
     web3client: client,
   );
-  print(response[0]);
   final proposal = Proposal.fromTuple(response);
-  print('Gamer $id ' + proposal.toString());
-  print(proposal.description);
   return proposal;
 }
