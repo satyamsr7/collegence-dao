@@ -11,10 +11,10 @@ Collegence is a decentralized autonomous organisation (DAO) <br>that has no cent
 ---
 <br>
 <p align="center">
-<img src="./public/login-with-keys.png" width="200"> &nbsp;
-<img src="./public/dashboard.png" width="200">&nbsp;
-<img src="./public/dashboard-2.png" width="200">&nbsp;
-<img src="./public/cast-vote.png" width="200">&nbsp;
+<img src="./public/login-with-keys.png" width="150"> &nbsp;
+<img src="./public/dashboard.png" width="150">&nbsp;
+<img src="./public/dashboard-2.png" width="150">&nbsp;
+<img src="./public/cast-vote.png" width="150">&nbsp;
 </p>
 <br>  
 

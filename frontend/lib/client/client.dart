@@ -33,7 +33,7 @@ class PrivateKeyProvider extends StateNotifier<EthPrivateKey?> {
   final Ref ref;
   EtherAmount? bal;
   PrivateKeyProvider(this.ref) : super(null) {
-    setCredentials = '0x${ENV.privateKey}';
+    setCredentials = '0x';
   }
 
   set setCredentials(String privateKey) {
