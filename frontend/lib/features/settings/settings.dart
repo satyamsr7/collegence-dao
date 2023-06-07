@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:collegence_dao/features/address_book/address_book_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -45,13 +46,21 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
             const SizedBox(height: 10),
             ListTile(
               onTap: () async {
+                context.pushNamed(AddressBookScreen.name);
+              },
+              leading: const Icon(Icons.contact_page_rounded),
+              title: const Text('Address Book'),
+            ),
+            const SizedBox(height: 10),
+            ListTile(
+              onTap: () async {
                 const storage = FlutterSecureStorage();
                 final pref = await SharedPreferences.getInstance();
                 storage.deleteAll();
                 pref.clear();
                 context.go('/splash');
               },
-              leading: PhosphorIcon(PhosphorIcons.bold.signOut),
+              leading: const Icon(Icons.logout),
               title: const Text('Log Out'),
             ),
             const Spacer(),

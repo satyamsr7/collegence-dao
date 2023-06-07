@@ -60,11 +60,14 @@ class _CreateProposalSectionState extends State<CreateProposalSection> {
                   backgroundColor: Colors.black,
                 ),
                 onPressed: () {
-                  controller.text = controller.text.trim();
-                  context.pushNamed(
-                    CreateProposalScreen.name,
-                    extra: controller,
-                  );
+                  if (controller != null) {
+                    context.pushNamed(
+                      CreateProposalScreen.name,
+                      extra: controller,
+                    );
+                  } else {
+                    context.pushNamed(CreateProposalScreen.name);
+                  }
                 },
                 icon: const Icon(
                   Icons.arrow_forward_ios_rounded,

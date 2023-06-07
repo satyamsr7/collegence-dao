@@ -11,17 +11,17 @@ Collegence is a decentralized autonomous organisation (DAO) <br>that has no cent
 ---
 <br>
 <p align="center">
-<img src="./public/login-with-keys.png" width="150"> &nbsp;
-<img src="./public/dashboard.png" width="150">&nbsp;
-<img src="./public/dashboard-2.png" width="150">&nbsp;
-<img src="./public/cast-vote.png" width="150">&nbsp;
+<img src="./public/login-with-keys.png" width="180"> &nbsp;
+<img src="./public/dashboard.png" width="180">&nbsp;
+<img src="./public/dashboard-2.png" width="180">&nbsp;
+<img src="./public/cast-vote.png" width="180">&nbsp;
 </p>
 <br>  
 
 ---
 
 Blockchain Network: **Polygon Mumbai**  
- Contract Address: [0x08e081fc2Ff1dAa884c1107C13C59037268b5AE4](https://mumbai.polygonscan.com/address/0x08e081fc2Ff1dAa884c1107C13C59037268b5AE4#code)  
+ Contract Address: [0xA999902839803Fe3dc70A5e0Fd7086CeaE6902f5](https://mumbai.polygonscan.com/address/0xA999902839803Fe3dc70A5e0Fd7086CeaE6902f5#code)  
  DApp Link: [Download now]("#")
 
 ## TECHSTACK

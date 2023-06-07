@@ -1,3 +1,4 @@
+import 'package:collegence_dao/features/address_book/address_book_screen.dart';
 import 'package:collegence_dao/features/create_proposal/view/create_proposal_screen.dart';
 import 'package:collegence_dao/features/home/home_page.dart';
 import 'package:collegence_dao/features/home/model/proposal.model.dart';
@@ -27,6 +28,11 @@ final router = GoRouter(
       path: '/',
       name: 'home',
       builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      path: AddressBookScreen.path,
+      name: AddressBookScreen.name,
+      builder: (context, state) => const AddressBookScreen(),
     ),
     GoRoute(
       path: CreateProposalScreen.path,

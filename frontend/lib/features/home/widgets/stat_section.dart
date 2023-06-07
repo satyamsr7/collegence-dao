@@ -68,11 +68,7 @@ class StatSectionWidget extends StatelessWidget {
             child: ListTile(
               visualDensity: const VisualDensity(vertical: -2),
               selectedColor: Colors.blue,
-              leading: PhosphorIcon(
-                PhosphorIcons.fill.listNumbers,
-                size: 25.0,
-                semanticLabel: 'New Note',
-              ),
+              leading: const Icon(Icons.format_list_numbered),
               title: const Text('Total Proposals'),
               subtitle: Consumer(
                 builder: (context, ref, child) => FutureBuilder<String>(
@@ -97,8 +93,8 @@ class StatSectionWidget extends StatelessWidget {
                 child: ListTile(
                   visualDensity: const VisualDensity(vertical: -2),
                   tileColor: Colors.blue,
-                  leading: PhosphorIcon(
-                    PhosphorIcons.bold.thumbsUp,
+                  leading: const Icon(
+                    Icons.thumb_up,
                     size: 25.0,
                     semanticLabel: 'Approved',
                   ),
@@ -123,10 +119,10 @@ class StatSectionWidget extends StatelessWidget {
               Flexible(
                 child: ListTile(
                   visualDensity: const VisualDensity(vertical: -2),
-                  leading: PhosphorIcon(
-                    PhosphorIcons.bold.thumbsDown,
+                  leading: const Icon(
+                    Icons.thumb_down,
                     size: 25.0,
-                    semanticLabel: 'Approved',
+                    semanticLabel: 'Rejected',
                   ),
                   title: const Text('Ongoing'),
                   subtitle: Consumer(
