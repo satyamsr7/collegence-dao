@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'package:collegence_dao/core/Palette.dart';
 import 'package:collegence_dao/features/home/controller/stats.controller.dart';
